@@ -53,7 +53,7 @@ import android.widget.ListView;
 public class MultiAdapterSpinner extends FrameLayout
     implements AdapterView.OnItemClickListener, View.OnClickListener {
 
-    protected MergedSpinnerAdapter mAdapter;
+    protected MergedAdapter<FancySpinnerAdapter> mAdapter;
     protected ListPopupWindow mPopup;
 
     private int mSelectedPosition = -1;
@@ -77,7 +77,7 @@ public class MultiAdapterSpinner extends FrameLayout
         void onShowPopup();
     }
 
-    private class MergedSpinnerAdapter extends MergedAdapter<FancySpinnerAdapter> {
+    private static class MergedSpinnerAdapter extends MergedAdapter<FancySpinnerAdapter> {
         /**
          * ListPopupWindow uses getView() but spinners return dropdown views in getDropDownView().
          */
