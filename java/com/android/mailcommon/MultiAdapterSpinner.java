@@ -22,6 +22,8 @@ import com.android.mailcommon.MergedAdapter.ListSpinnerAdapter;
 import com.android.mailcommon.MergedAdapter.LocalAdapterPosition;
 
 import android.content.Context;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +59,7 @@ public class MultiAdapterSpinner extends FrameLayout
     protected ListPopupWindow mPopup;
 
     private int mSelectedPosition = -1;
+    private Rect mTempRect = new Rect();
 
     /**
      * A basic adapter with some callbacks added so clients can be involved in spinner behavior.
@@ -142,6 +145,14 @@ public class MultiAdapterSpinner extends FrameLayout
                 mAdapter.getSubAdapter(i).onShowPopup();
             }
 
+            final int spinnerPaddingLeft = getPaddingLeft();
+            final Drawable background = mPopup.getBackground();
+            int bgOffset = 0;
+            if (background != null) {
+                background.getPadding(mTempRect);
+                bgOffset = -mTempRect.left;
+            }
+            mPopup.setHorizontalOffset(bgOffset + spinnerPaddingLeft);
             mPopup.show();
             mPopup.getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             mPopup.setSelection(mSelectedPosition);
